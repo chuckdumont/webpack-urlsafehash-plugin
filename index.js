@@ -1,5 +1,6 @@
 /*
- * (C) Copyright IBM Corp. 2012, 2016 All Rights Reserved.
+ * (C) Copyright HCL Technologies Ltd. 2018
+ * (C) Copyright IBM Corp. 2012, 2017 All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +15,12 @@
  * limitations under the License.
  */
 
+const {tap} = require("webpack-plugin-compat").for("webpack-urlsafehash-plugin");
 module.exports = class UrlSafeHashPlugin {
 
   apply(compiler) {
-    compiler.plugin("compilation", (compilation) => {
-      compilation.plugin("after-hash", () => {
+    tap(compiler, "compilation", (compilation) => {
+      tap(compilation, "after-hash", () => {
         compilation.chunks.forEach((chunk) =>{
           chunk.hash = chunk.hash.replace(/[/+=]/g, (c) => {
             switch (c) {
